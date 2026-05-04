@@ -167,8 +167,7 @@
     .intro-img {
       position: absolute; inset: 0; width: 100%; height: 100%;
       object-fit: cover; object-position: center;
-      animation: cinematicZoom 8s var(--ease-silk) forwards; /* Updated to 8s */
-      /* Anti-flicker fixes */
+      animation: cinematicZoom 8s var(--ease-silk) forwards;
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
       transform: translate3d(0, 0, 0); 
@@ -211,7 +210,6 @@
       width: 100%; height: 100%;
       object-fit: cover; object-position: center;
       will-change: transform; 
-      /* Anti-flicker fixes */
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
       transform: translate3d(0, 0, 0);
@@ -240,7 +238,6 @@
     .rule-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,0,0,0.65), transparent); }
     .rule-diamond { font-size: clamp(9px, 1.6vw, 13px); color: var(--main-page-text); filter: drop-shadow(0 0 8px rgba(255,255,255,0.9)) drop-shadow(0 0 20px rgba(255,255,255,0.5)); }
 
-    /* --- CONTROLS FOR "Together with their families" --- */
     .together { 
       font-family: var(--font-sans); 
       font-weight: 200; 
@@ -267,7 +264,6 @@
 
     .invite-line { font-family: var(--font-sc); font-weight: 600; font-size: clamp(11px, 2.4vw, 20px); letter-spacing: 0.3em; text-transform: uppercase; color: var(--main-page-text); text-shadow: 0 0 10px rgba(255,255,255,1), 0 0 22px rgba(255,255,255,0.85); -webkit-text-stroke: 0.4px var(--main-page-text); }
     
-    /* --- MATCHED CONTROLS FOR "invite you to celebrate their wedding" --- */
     .invite-date {
       font-family: var(--font-sans); 
       font-weight: 200; 
@@ -420,7 +416,7 @@
     <div class="loader-content">
       <div class="logo-wrap">
         <div class="logo-glow"></div>
-        <img src="https://drive.google.com/thumbnail?id=1--iy9uLGumgknSXbmgJM-_gZg1fhUbR5&sz=w2000" alt="T & A Monogram" class="logo-img" onerror="this.style.display='none'" />
+        <img src="https://s3.eu-north-1.amazonaws.com/eternel.eg/image1.gif" alt="T & A Monogram" class="logo-img" onerror="this.style.display='none'" />
       </div>
       <p class="loader-subtitle">Loading your invitation…</p>
       <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
@@ -429,7 +425,7 @@
 
   <div id="tapOverlay" class="tap-overlay hidden">
     <div class="tap-inner">
-      <img src="https://drive.google.com/thumbnail?id=1--iy9uLGumgknSXbmgJM-_gZg1fhUbR5&sz=w2000" alt="Monogram" class="tap-logo" onerror="this.style.display='none'" />
+      <img src="https://s3.eu-north-1.amazonaws.com/eternel.eg/image1.gif" alt="Monogram" class="tap-logo" onerror="this.style.display='none'" />
       <p class="tap-label">Tap to Enter</p>
       <div class="tap-ring"></div>
     </div>
@@ -446,7 +442,7 @@
 
     <div class="page" id="page-1">
       <div class="page-bg">
-        <img class="page-bg-img" src="https://drive.google.com/thumbnail?id=12MoLiIDqREJ47C6TwIjBqDnbURwiK-v1&sz=w2000" alt="" loading="eager" decoding="async" />
+        <img class="page-bg-img" src="https://s3.eu-north-1.amazonaws.com/eternel.eg/image3.gif" alt="" loading="eager" decoding="async" />
       </div>
       <div class="page-overlay" style="background: linear-gradient(to bottom, rgba(14,10,6,0.18) 0%, transparent 28%, transparent 65%, rgba(14,10,6,0.55) 100%);"></div>
 
@@ -477,7 +473,7 @@
 
     <div class="page" id="page-2">
       <div class="page-bg">
-        <img class="page-bg-img" src="https://drive.google.com/thumbnail?id=1pMWs7u0lvQSVLgopy7KaxIhKkiuXNZCQ&sz=w2000" alt="" loading="lazy" decoding="async" />
+        <img class="page-bg-img" src="https://s3.eu-north-1.amazonaws.com/eternel.eg/image4.gif" alt="" loading="lazy" decoding="async" />
       </div>
       <div class="page-overlay" style="background: transparent;"></div>
 
@@ -507,7 +503,7 @@
 
     <div class="page" id="page-3">
       <div class="page-bg">
-        <img class="page-bg-img" src="https://drive.google.com/thumbnail?id=12tz1Zf9DVm8TQs46fQsi6IfobXPXV-Xe&sz=w2000" alt="" loading="lazy" decoding="async" />
+        <img class="page-bg-img" src="https://s3.eu-north-1.amazonaws.com/eternel.eg/image5.gif" alt="" loading="lazy" decoding="async" />
       </div>
       <div class="page-overlay" style="background: transparent;"></div>
 
@@ -551,10 +547,6 @@
                     <div class="g-num" id="guest-count">1</div>
                     <button type="button" class="g-btn" onclick="changeGuests(1)">+</button>
                   </div>
-                </div>
-                <div class="f-field">
-                  <label class="f-lbl" for="f-msg">Message</label>
-                  <textarea class="f-ta" id="f-msg" placeholder="Share a word of love or a memory…"></textarea>
                 </div>
                 <button type="submit" class="btn-submit" id="btn-submit">Send RSVP</button>
               </form>
@@ -630,11 +622,11 @@
 
     async function preloadAll() {
       const assets = [
-        { src: 'https://drive.google.com/thumbnail?id=1--iy9uLGumgknSXbmgJM-_gZg1fhUbR5&sz=w2000',  type: 'img' },
-        { src: 'https://drive.google.com/thumbnail?id=12MoLiIDqREJ47C6TwIjBqDnbURwiK-v1&sz=w2000', type: 'img' },
-        { src: 'https://drive.google.com/thumbnail?id=1pMWs7u0lvQSVLgopy7KaxIhKkiuXNZCQ&sz=w2000',  type: 'img' },
-        { src: 'https://drive.google.com/thumbnail?id=12tz1Zf9DVm8TQs46fQsi6IfobXPXV-Xe&sz=w2000',  type: 'img' },
-        { src: 'https://drive.google.com/thumbnail?id=1TgZap2Fomk6dn6BJFg7gZezz8Mes0cXw&sz=w2000',  type: 'img' } // ADDED INTRO IMAGE
+        { src: 'https://s3.eu-north-1.amazonaws.com/eternel.eg/image1.gif',  type: 'img' },
+        { src: 'https://s3.eu-north-1.amazonaws.com/eternel.eg/image3.gif', type: 'img' },
+        { src: 'https://s3.eu-north-1.amazonaws.com/eternel.eg/image4.gif',  type: 'img' },
+        { src: 'https://s3.eu-north-1.amazonaws.com/eternel.eg/image5.gif',  type: 'img' },
+        { src: 'https://s3.eu-north-1.amazonaws.com/eternel.eg/image2.gif',  type: 'img' } // ADDED INTRO IMAGE
       ];
       const startTime = Date.now();
       let loaded = 0;
@@ -765,7 +757,7 @@
       e.preventDefault();
 
       const name    = $('f-name').value.trim();
-      const message = $('f-msg') ? $('f-msg').value.trim() : '';
+      
       if (!name || !attendVal) { if (!name) $('f-name').focus(); else alert('Please select attendance.'); return; }
       
       const guests  = attendVal === 'yes' ? guestCnt : 0;
@@ -783,7 +775,7 @@
         name: name,
         attendance: attendVal === 'yes' ? 'Attending' : 'Declining',
         guestCount: guests,
-        message: message || 'N/A'
+        message: 'N/A' // Message field was removed, passing a default value so the Google Sheet doesn't break
       };
 
       try {
@@ -830,7 +822,7 @@
         tapOverlay.addEventListener('click', () => {
           tapOverlay.style.opacity = '0';
           
-          $('intro-img-element').src = 'https://drive.google.com/thumbnail?id=1TgZap2Fomk6dn6BJFg7gZezz8Mes0cXw&sz=w2000';
+          $('intro-img-element').src = 'https://s3.eu-north-1.amazonaws.com/eternel.eg/image2.gif';
           
           bgMusic.volume = CONFIG.MUSIC_VOLUME;
           bgMusic.play().then(() => { musicStarted = true; setPlay(true); }).catch(()=>{});
