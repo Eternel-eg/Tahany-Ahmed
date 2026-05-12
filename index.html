@@ -2,878 +2,864 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shady & Youssra – Our Days</title>
-
-  <!-- Google Fonts: Amatic SC (ALL typography) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Ahmed & Tahany — Wedding Invitation</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,600;1,700&family=Cormorant+SC:wght@300;400;600;700&family=Parisienne&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
 
   <style>
-    /* ============================================================
-       CSS VARIABLES – edit palette here
-    ============================================================ */
+    /* ═══════════════════════════════════════════════════════════════════════
+       GLOBAL PALETTE & BASE
+       ═══════════════════════════════════════════════════════════════════════ */
     :root {
-      --orange:       #D97A4A;
-      --terracotta:   #C96B4B;
-      --cream:        #F4E6D1;
-      --sand:         #E7D2B3;
-      --gold:         #D8B68A;
-      --brown:        #8A5A44;
-      --floral:       #FFF7EE;
-      --peach:        #EBC1A3;
-      --border-red:   #D85C42;
-      --shadow-brown: #6F4A3A;
+      /* EDIT THIS TO CHANGE THE MAIN FRONT PAGE TEXT COLOR */
+      --main-page-text: #3e2723; /* Currently set to Dark Brown */
 
-      --glow:         rgba(217,122,74,0.30);
-      --particle:     rgba(235,193,163,0.50);
-      --overlay-bg:   rgba(255,247,238,0.18);
+      --ivory:         #f8f3e8;
+      --champagne:     #e8d5a3;
+      --champagne-dk:  #c9a96e;
+      --cream:         #faf6ef;
+      --gold:          #c9a45a;
+      --gold-lt:       #e2c97e;
+      --gold-dk:       #a07830;
+      --maroon:        #6E1A37;
+      --maroon-lt:     #8b2347;
+      --text-dark:     #2c1a12;
+
+      --font-serif:    'Cormorant Garamond', Georgia, serif;
+      --font-sc:       'Cormorant SC', 'Cormorant Garamond', serif;
+      --font-script:   'Parisienne', cursive;
+      --font-sans:     'Jost', sans-serif;
+
+      --ease-silk: cubic-bezier(0.25, 0.1, 0.1, 1);
+      --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* ============================================================
-       RESET & BASE
-    ============================================================ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Amatic SC', cursive;
-      background: var(--cream);
-      color: var(--shadow-brown);
-      overflow-x: hidden;
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background: #050403;
+      font-family: var(--font-serif);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overscroll-behavior: none;
     }
 
-    /* ============================================================
-       LOADING SCREEN
-    ============================================================ */
-    #loading-screen {
+    .scene {
       position: fixed;
-      inset: 0;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 24px;
-      background: var(--cream);
-
-      /* Warm watercolor paper texture via radial gradients */
-      background-image:
-        radial-gradient(ellipse at 20% 30%, rgba(235,193,163,0.45) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 70%, rgba(217,122,74,0.20) 0%, transparent 55%),
-        radial-gradient(ellipse at 50% 50%, rgba(244,230,209,0.90) 0%, transparent 80%);
-
-      transition: opacity 0.9s ease, visibility 0.9s ease;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100svh;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.8s var(--ease-silk);
+      z-index: 10;
+      background: #0d0a07;
     }
 
-    #loading-screen.hidden {
+    .scene.active { opacity: 1; pointer-events: all; }
+    .scene.hidden { opacity: 0; pointer-events: none; }
+    .scene.gone   { display: none; }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SCREEN 1 — PRELOADER
+       ═══════════════════════════════════════════════════════════════════════ */
+    #loader { flex-direction: column; z-index: 100; }
+
+    .loader-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 120% 80% at 30% 20%, rgba(200,170,120,0.22) 0%, transparent 60%),
+        radial-gradient(ellipse 100% 100% at 75% 85%, rgba(210,170,130,0.18) 0%, transparent 55%),
+        linear-gradient(160deg, #1a120a 0%, #0f0a06 40%, #150e09 70%, #1c1309 100%);
+      animation: loaderBgPulse 8s ease-in-out infinite alternate;
+    }
+    @keyframes loaderBgPulse { 0% { filter: brightness(1); } 100% { filter: brightness(1.12); } }
+
+    .loader-particles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .loader-particles .particle {
+      position: absolute; border-radius: 50%;
+      background: radial-gradient(circle, var(--champagne) 0%, transparent 70%);
       opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
+      animation: floatUp var(--dur, 6s) var(--delay, 0s) ease-in-out infinite;
+    }
+    @keyframes floatUp {
+      0%   { opacity: 0; transform: translateY(0) scale(0.6); }
+      20%  { opacity: 0.6; }
+      80%  { opacity: 0.3; }
+      100% { opacity: 0; transform: translateY(-120px) scale(1); }
     }
 
-    /* Canvas for floating particles on loading screen */
-    #loading-canvas {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
+    .loader-content {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: center;
+      gap: clamp(20px, 4vw, 36px);
     }
 
-    #loading-logo {
-      width: min(260px, 65vw);
-      animation: breathe 3s ease-in-out infinite;
-      filter: drop-shadow(0 0 18px var(--glow));
+    .logo-wrap {
       position: relative;
-      z-index: 1;
+      width: clamp(140px, 32vw, 260px);
+      aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-glow {
+      position: absolute; inset: -30%; border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,164,90,0.3) 0%, transparent 65%);
+      animation: glowPulse 3s ease-in-out infinite alternate;
+    }
+    @keyframes glowPulse { 0% { transform: scale(0.9); opacity: 0.7; } 100% { transform: scale(1.2); opacity: 1; } }
+
+    .logo-img {
+      width: 100%; height: 100%; object-fit: contain;
+      animation: logoFloat 4s ease-in-out infinite alternate, logoFadeIn 1s var(--ease-out) forwards;
+      filter: drop-shadow(0 0 28px rgba(201,164,90,0.55)) drop-shadow(0 0 60px rgba(201,164,90,0.2));
+    }
+    @keyframes logoFloat  { 0% { transform: translateY(0); } 100% { transform: translateY(-10px); } }
+    @keyframes logoFadeIn { from { opacity: 0; transform: scale(0.85) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+    .loader-subtitle {
+      font-family: var(--font-sc); font-size: clamp(10px, 1.6vw, 13px);
+      letter-spacing: 0.4em; color: rgba(220,195,145,0.65);
+      text-transform: uppercase; animation: subtitleFade 1s 0.3s ease-out forwards; opacity: 0;
+    }
+    @keyframes subtitleFade { to { opacity: 1; } }
+
+    .loader-bar-wrap {
+      width: clamp(90px, 26vw, 170px); height: 1px;
+      background: rgba(201,164,90,0.18); border-radius: 1px; overflow: hidden;
+    }
+    .loader-bar {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--champagne-dk), var(--gold-lt), var(--champagne-dk));
+      background-size: 200% 100%;
+      border-radius: 1px; transition: width 0.2s ease;
+      animation: shimmer 2.2s linear infinite;
+    }
+    @keyframes shimmer { 0% { background-position: 200% center; } 100% { background-position: -200% center; } }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       TAP-TO-ENTER OVERLAY
+       ═══════════════════════════════════════════════════════════════════════ */
+    .tap-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(14,10,6,0.9);
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      transition: opacity 0.5s ease;
+    }
+    .tap-overlay.hidden { display: none; }
+    .tap-inner { display: flex; flex-direction: column; align-items: center; gap: 24px; animation: tapPulse 2.6s ease-in-out infinite; }
+    @keyframes tapPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.035); } }
+    .tap-logo  { width: clamp(90px, 20vw, 150px); filter: drop-shadow(0 0 22px rgba(201,164,90,0.5)); }
+    .tap-label { font-family: var(--font-sc); font-size: clamp(11px, 1.9vw, 15px); letter-spacing: 0.45em; color: var(--champagne); text-transform: uppercase; }
+    .tap-ring { position: absolute; width: clamp(160px, 36vw, 270px); aspect-ratio: 1; border-radius: 50%; border: 1px solid rgba(201,164,90,0.3); animation: ringExpand 2.6s ease-out infinite; }
+    @keyframes ringExpand { 0% { transform: scale(0.85); opacity: 0.8; } 100% { transform: scale(1.3); opacity: 0; } }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SCREEN 2 — INTRO / BRIDGE
+       ═══════════════════════════════════════════════════════════════════════ */
+    #intro { z-index: 50; overflow: hidden; }
+    .intro-img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      animation: cinematicZoom 8s var(--ease-silk) forwards;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      transform: translate3d(0, 0, 0); 
+      will-change: transform;
+    }
+    @keyframes cinematicZoom { 0% { transform: scale(1.08); } 100% { transform: scale(1); } }
+    .intro-overlay { position: absolute; inset: 0; z-index: 1; background: linear-gradient(to bottom, rgba(14,10,6,0.45) 0%, rgba(14,10,6,0.05) 40%, rgba(14,10,6,0.05) 65%, rgba(14,10,6,0.6) 100%); }
+    .intro-vignette { position: absolute; inset: 0; z-index: 2; box-shadow: inset 0 0 140px rgba(14,10,6,0.7); pointer-events: none; }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SCREEN 3 — MAIN MULTI-PAGE SYSTEM
+       ═══════════════════════════════════════════════════════════════════════ */
+    #main {
+      z-index: 20; display: block;
+      overflow-y: auto; overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      scroll-snap-type: y mandatory;
     }
 
-    @keyframes breathe {
-      0%,100% { transform: scale(1)   translateY(0);    opacity: 1;    }
-      50%      { transform: scale(1.06) translateY(-6px); opacity: 0.88; }
+    #particleCanvas {
+      position: fixed; top: 0; left: 0;
+      width: 100vw; height: 100svh;
+      z-index: 1; pointer-events: none;
     }
 
-    #loading-text {
-      font-size: clamp(22px, 5vw, 32px);
-      font-weight: 700;
-      color: var(--brown);
-      letter-spacing: 2px;
+    .page {
       position: relative;
-      z-index: 1;
-      text-align: center;
-    }
-
-    #loading-pets {
-      display: flex;
-      gap: 12px;
-      font-size: clamp(26px, 6vw, 40px);
-      position: relative;
-      z-index: 1;
-    }
-
-    #loading-pets span {
-      display: inline-block;
-      animation: petBounce 1.4s ease-in-out infinite;
-    }
-    #loading-pets span:nth-child(1) { animation-delay: 0s;    }
-    #loading-pets span:nth-child(2) { animation-delay: 0.23s; }
-    #loading-pets span:nth-child(3) { animation-delay: 0.46s; }
-    #loading-pets span:nth-child(4) { animation-delay: 0.69s; }
-    #loading-pets span:nth-child(5) { animation-delay: 0.92s; }
-    #loading-pets span:nth-child(6) { animation-delay: 1.15s; }
-
-    @keyframes petBounce {
-      0%,100% { transform: translateY(0)   scale(1);    opacity: 0.7; }
-      50%      { transform: translateY(-10px) scale(1.15); opacity: 1;   }
-    }
-
-    /* Enter Button (Start the celebration) */
-    #enter-btn {
-      padding: 12px 28px;
-      font-family: 'Amatic SC', cursive;
-      font-size: clamp(20px, 5vw, 28px);
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: var(--floral);
-      background: linear-gradient(135deg, var(--orange), var(--terracotta));
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(217,122,74,0.40);
-      transition: transform 0.2s, box-shadow 0.3s, filter 0.3s;
-      position: relative;
+      width: 100vw;
+      height: 100svh;
+      display: flex; flex-direction: column;
       z-index: 2;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+
+    .page-bg { position: absolute; inset: 0; overflow: hidden; z-index: 0; background: #0d0a07; }
+    .page-bg-img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      will-change: transform; 
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      transform: translate3d(0, 0, 0);
+    }
+    .page-overlay { position: absolute; inset: 0; z-index: 1; }
+    .page-content { position: relative; z-index: 2; width: 100%; flex: 1; display: flex; flex-direction: column; }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       PAGE 1 — TITLE / INVITATION
+       ═══════════════════════════════════════════════════════════════════════ */
+    .invitation-wrap {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: clamp(6px, 1.4vh, 16px);
+      padding: clamp(16px, 3vh, 40px) clamp(16px, 6vw, 52px);
+      text-align: center; width: 100%; flex: 1;
+      padding-bottom: clamp(60px, 25vh, 180px);
+    }
+
+    .anim-item { opacity: 0; transform: translateY(22px); transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out); }
+    .anim-item.revealed { opacity: 1; transform: translateY(0); }
+    .fade-up-scroll { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+    .fade-up-scroll.is-visible { opacity: 1; transform: translateY(0); }
+
+    .deco-rule { display: flex; align-items: center; gap: 12px; width: clamp(140px, 40vw, 300px); }
+    .deco-rule--sm { width: clamp(80px, 22vw, 170px); }
+    .rule-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,0,0,0.65), transparent); }
+    .rule-diamond { font-size: clamp(9px, 1.6vw, 13px); color: var(--main-page-text); filter: drop-shadow(0 0 8px rgba(255,255,255,0.9)) drop-shadow(0 0 20px rgba(255,255,255,0.5)); }
+
+    .together { 
+      font-family: var(--font-sans); 
+      font-weight: 200; 
+      font-size: clamp(14px, 3.2vw, 20px); 
+      letter-spacing: 0.2em; 
+      text-transform: uppercase; 
+      color: var(--main-page-text); 
+      text-shadow: 0 0 10px rgba(255,255,255,1), 0 0 22px rgba(255,255,255,0.9); 
+      -webkit-text-stroke: 0.6px var(--main-page-text); 
     }
     
-    #enter-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 22px rgba(217,122,74,0.55);
-      filter: brightness(1.08);
+    .name-script {
+      font-family: var(--font-script); font-weight: 400; line-height: 1.0; letter-spacing: 0.01em;
+      font-size: clamp(66px, 15vw, 136px); 
+      color: var(--main-page-text);
+      text-shadow: 0 0 18px rgba(255,255,255,1), 0 0 40px rgba(255,255,255,0.9), 0 4px 30px rgba(255,255,255,0.4);
+      -webkit-text-stroke: 0.8px var(--main-page-text); filter: drop-shadow(0 2px 12px rgba(255,255,255,0.85));
     }
+    .name-script--caps { font-size: clamp(56px, 12.5vw, 118px); }
 
-    /* ============================================================
-       MAIN WRAPPER
-    ============================================================ */
-    #main-wrapper {
-      opacity: 0;
-      transition: opacity 1s ease;
-    }
-    #main-wrapper.visible { opacity: 1; }
+    .ampersand-wrap { display: flex; align-items: center; gap: clamp(12px, 3vw, 26px); width: clamp(160px, 44vw, 340px); }
+    .amp-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,0,0,0.5), transparent); }
+    .amp-char { font-family: var(--font-script); font-size: clamp(30px, 6.5vw, 56px); color: var(--main-page-text); text-shadow: 0 0 14px rgba(255,255,255,1), 0 0 30px rgba(255,255,255,0.85); -webkit-text-stroke: 0.8px var(--main-page-text); }
 
-    /* ============================================================
-       INVITATION CONTAINER (Now a Query Container for perfect scaling)
-    ============================================================ */
-    #invitation-container {
-      position: relative;
-      max-width: 540px;
-      margin: 0 auto;
-      container-type: inline-size; /* Enables cqw units for aspect-ratio responsive scaling */
-      animation: invEnter 1.2s cubic-bezier(.90,.68,0,1.2) both;
-      animation-play-state: paused;
-    }
-    #invitation-container.animate { animation-play-state: running; }
-
-    @keyframes invEnter {
-      from { opacity: 0; transform: translateY(40px) scale(0.97); }
-      to   { opacity: 1; transform: translateY(0)   scale(1);    }
-    }
-
-    #invitation-image {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 4px;
-    }
-
-    /* ============================================================
-       GIF OVERLAY POSITION CONTROLS
-    ============================================================ */
-    #gif-overlay {
-      position: absolute;
-      top: 42.6%;       
-      left: 50%;        
-      transform: translateX(-50%);
-      width: 70%;       
-      pointer-events: none;
-      display: flex;
-      justify-content: center;
-    }
-
-    #gif-overlay img {
-      width: 100%;
-      height: auto;
-      display: block;
-      opacity: 1;
-      mix-blend-mode: normal;
-    }
-
-    /* ============================================================
-       INTERACTIVE OVERLAY
-    ============================================================ */
-    #interactive-overlay {
-      position: absolute;
-      inset: 0;
-      pointer-events: none; 
-    }
-
-    /* ============================================================
-       📍 GOOGLE MAP BUTTON POSITION CONTROLS (Shrunk by 5%)
-    ============================================================ */
-    #map-btn-wrapper {
-      position: absolute;
-      top: 58.7%;       
-      left: 50%;        
-      transform: translateX(-50%);
-      width: 38%; /* Decreased from 40% to 38% */
-      pointer-events: all;
-    }
-
-    #map-btn {
-      display: block;
-      width: 100%;
-      /* Scaled using container query units (cqw) for perfect aspect ratio response */
-      padding: clamp(2px, 0.7cqw, 5px) 0;   
-      font-family: 'Amatic SC', cursive;
-      font-size: clamp(13px, 3cqw, 16px); /* Decreased slightly */
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      color: var(--shadow-brown);
-      background: rgba(244,230,209,0.22);
-      border: 1.5px solid var(--terracotta);
-      border-radius: 30px;
-      cursor: pointer;
-      text-decoration: none;
-      text-align: center;
-      transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
-      backdrop-filter: blur(2px);
-    }
-    #map-btn:hover {
-      background: rgba(201,107,75,0.22);
-      box-shadow: 0 0 18px var(--glow);
-      transform: scale(1.04);
-    }
-
-    /* ============================================================
-       ✉️ RSVP FORM POSITION CONTROLS (Shrunk Height by 5%)
-    ============================================================ */
-    #rsvp-wrapper {
-      position: absolute;
-      top: 65.5%;         
-      left: 50%;        
-      transform: translateX(-50%);
-      width: 65%;       
-      pointer-events: all;
-    }
-
-    /* --- RSVP HEIGHT CONTROLS --- */
-    /* To adjust the overall height of the RSVP form, tweak the 'margin-bottom', 'padding', and 'min-height' values below. */
-    /* They use 'cqw' (container query width) to scale perfectly with the image. */
-
-    .rsvp-field {
-      /* ← EDIT THIS: Controls the vertical gap/space between each form section. */
-      margin-bottom: clamp(1px, 0.8cqw, 3px); 
-    }
-
-    .rsvp-label {
-      display: block;
-      font-size: clamp(11px, 2.5cqw, 14px);
-      font-weight: 700;
-      color: var(--shadow-brown);
-      letter-spacing: 1px;
-      margin-bottom: 0px; 
-      text-transform: uppercase;
-    }
-
-    .rsvp-input {
-      width: 100%;
-      /* ← EDIT THIS: The first clamp() here controls the inner vertical height of the text inputs */
-      padding: clamp(1px, 0.6cqw, 3px) clamp(4px, 1.5cqw, 8px);   
-      font-family: 'Amatic SC', cursive;
-      font-size: clamp(12px, 2.8cqw, 15px);
-      color: var(--shadow-brown);
-      background: var(--overlay-bg);
-      border: 1.5px solid var(--orange);
-      border-radius: 6px;
-      outline: none;
-      transition: box-shadow 0.3s, border-color 0.3s, background 0.3s;
-      backdrop-filter: blur(3px);
-    }
+    .invite-line { font-family: var(--font-sc); font-weight: 600; font-size: clamp(11px, 2.4vw, 20px); letter-spacing: 0.3em; text-transform: uppercase; color: var(--main-page-text); text-shadow: 0 0 10px rgba(255,255,255,1), 0 0 22px rgba(255,255,255,0.85); -webkit-text-stroke: 0.4px var(--main-page-text); }
     
-    textarea.rsvp-input {
-      resize: vertical;
-      /* ← EDIT THIS: Controls the specific height of the "Message for the couple" box */
-      min-height: clamp(22px, 4.5cqw, 28px);
+    .invite-date {
+      font-family: var(--font-sans); 
+      font-weight: 200; 
+      font-size: clamp(14px, 3.2vw, 20px); 
+      letter-spacing: 0.2em; 
+      text-transform: uppercase; 
+      color: var(--main-page-text); 
+      text-shadow: 0 0 10px rgba(255,255,255,1), 0 0 22px rgba(255,255,255,0.9); 
+      -webkit-text-stroke: 0.6px var(--main-page-text); 
+      margin-top: 4px;
     }
 
-    .rsvp-input:focus {
-      border-color: var(--terracotta);
-      box-shadow: 0 0 12px rgba(217,122,74,0.35);
-      background: rgba(255,247,238,0.35);
-    }
+    .bottom-ornament { font-size: clamp(9px, 1.4vw, 13px); color: var(--main-page-text); letter-spacing: 0.75em; opacity: 0.8; filter: drop-shadow(0 0 10px rgba(255,255,255,0.95)); }
 
-    /* Attendance buttons row */
-    #attendance-row {
-      display: flex;
-      gap: clamp(4px, 1cqw, 6px);
-      margin-top: 1px;
-    }
+    .page-frame { position: absolute; left: 5%; right: 5%; z-index: 3; pointer-events: none; }
+    .page-frame--top { top: clamp(12px, 2.5vh, 24px); }
+    .page-frame--bot { bottom: clamp(50px, 9vh, 80px); }
+    .page-frame-line { width: 100%; height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.25) 20%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.25) 80%, transparent 100%); }
+    .page-frame-corner { display: flex; justify-content: space-between; margin-top: 4px; }
+    .page-frame-corner span { width: 5px; height: 5px; border-left: 1px solid rgba(0,0,0,0.35); border-top: 1px solid rgba(0,0,0,0.35); filter: drop-shadow(0 0 3px rgba(255,255,255,0.6)); }
+    .page-frame-corner span:last-child { transform: scaleX(-1); }
 
-    .attend-btn {
-      flex: 1;
-      /* ← EDIT THIS: Controls the inner vertical height of the 'Joyfully/Regretfully' buttons */
-      padding: clamp(1px, 0.6cqw, 3px);
-      font-family: 'Amatic SC', cursive;
-      font-size: clamp(11px, 2.6cqw, 14px);
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: var(--shadow-brown);
-      background: rgba(255,247,238,0.25);
-      border: 1.5px solid var(--orange);
-      border-radius: 20px;
-      cursor: pointer;
-      transition: background 0.3s, box-shadow 0.3s, color 0.3s;
-      text-transform: uppercase;
-      backdrop-filter: blur(2px);
+    .scroll-separator {
+      position: absolute; bottom: clamp(14px, 2.8vh, 26px); left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 7px;
+      z-index: 10; text-decoration: none; cursor: pointer;
     }
+    .scroll-separator span {
+      color: var(--ivory); font-family: var(--font-sc); font-weight: 600;
+      font-size: clamp(9px, 1.5vw, 11px); text-transform: uppercase; letter-spacing: 0.32em;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+    }
+    .chevron-down {
+      width: 12px; height: 12px; border-right: 1.5px solid var(--ivory); border-bottom: 1.5px solid var(--ivory);
+      transform: rotate(45deg); animation: bounce 2.2s ease-in-out infinite;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+    }
+    @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0) rotate(45deg); } 40% { transform: translateY(-7px) rotate(45deg); } 60% { transform: translateY(-3px) rotate(45deg); } }
 
-    .attend-btn:hover,
-    .attend-btn.selected {
-      background: var(--orange);
-      color: var(--floral);
-      box-shadow: 0 0 14px var(--glow);
-    }
+    .scroll-dark span { color: var(--maroon); text-shadow: 0 1px 4px rgba(255,255,255,0.8); }
+    .scroll-dark .chevron-down { border-color: var(--maroon); filter: drop-shadow(0 2px 4px rgba(255,255,255,0.6)); }
 
-    /* Confirm button */
-    #rsvp-confirm-btn {
-      display: block;
-      width: 100%;
-      /* ← EDIT THIS: Controls the empty space right above the Confirm button */
-      margin-top: clamp(1px, 0.6cqw, 3px);
-      /* ← EDIT THIS: Controls the inner vertical height of the Confirm button itself */
-      padding: clamp(2px, 0.8cqw, 4px) 0;
-      font-family: 'Amatic SC', cursive;
-      font-size: clamp(14px, 3cqw, 17px);
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--floral);
-      background: linear-gradient(135deg, var(--orange), var(--terracotta));
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.3s, filter 0.3s;
-      box-shadow: 0 3px 14px rgba(217,122,74,0.40);
-    }
-
-    #rsvp-confirm-btn:hover {
-      transform: scale(1.03);
-      box-shadow: 0 6px 22px rgba(217,122,74,0.55);
-      filter: brightness(1.08);
-    }
-    
-    /* Disabled state for button when sending */
-    #rsvp-confirm-btn:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    /* Transparent Minimal Success message container */
-    #rsvp-success {
-      display: none;
-      position: absolute;
-      inset: 0;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      font-size: clamp(18px, 4.5cqw, 24px);
-      padding: clamp(10px, 2cqw, 15px);
-      font-weight: 700;
-      color: var(--shadow-brown);
+    /* ═══════════════════════════════════════════════════════════════════════
+       PAGES 2 & 3
+       ═══════════════════════════════════════════════════════════════════════ */
+    .polished-glass {
       background: transparent;
-    }
-    
-    /* Animated Minimal Circular Checkmark */
-    .success-checkmark-circle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: clamp(40px, 8cqw, 50px);
-      height: clamp(40px, 8cqw, 50px);
-      border: 2px solid var(--terracotta);
-      border-radius: 50%;
-      margin-bottom: 8px;
-      color: var(--terracotta);
-      font-size: clamp(20px, 5cqw, 28px);
-      animation: popCheck 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    }
-    
-    @keyframes popCheck {
-      0% { transform: scale(0); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    /* ============================================================
-       MUSIC BUTTON
-    ============================================================ */
-    #music-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 500;
-      padding: 10px 18px;
-      font-family: 'Amatic SC', cursive;
-      font-size: clamp(15px, 3.5vw, 19px);
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: var(--floral);
-      background: var(--orange);
       border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      box-shadow: 0 4px 20px rgba(217,122,74,0.50);
-      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-    #music-btn:hover {
-      background: var(--terracotta);
-      transform: scale(1.07);
-      box-shadow: 0 6px 26px rgba(201,107,75,0.55);
-    }
-    #music-btn .music-icon { font-size: 1.2em; }
-
-    /* ============================================================
-       FLOATING PARTICLES CANVAS
-    ============================================================ */
-    #particles-canvas {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1;
+      backdrop-filter: none; -webkit-backdrop-filter: none;
+      box-shadow: none;
+      border-radius: 8px; text-align: center;
+      width: 90%; margin: 0 auto;
     }
 
-    @media (max-width: 560px) {
-      #invitation-container { max-width: 100vw; }
-    }
+    .primary-text { color: var(--maroon); text-shadow: 0 1px 6px rgba(255,255,255,0.8); }
+    .secondary-text { color: var(--text-dark); text-shadow: 0 1px 4px rgba(255,255,255,0.8); }
 
+    .top-40-restrict {
+      height: 42svh;
+      flex: none; display: flex; flex-direction: column; justify-content: center;
+      padding: 0 4vw;
+    }
+    .clear-60-zone { height: 58svh; width: 100%; position: relative; pointer-events: none; }
+
+    /* ELEGANT LOCATION TYPOGRAPHY */
+    .event-date { font-family: var(--font-sc); font-size: clamp(16px, 4.5vw, 24px); font-weight: 600; letter-spacing: 0.15em; margin-bottom: 6px; }
+    .event-time { font-family: var(--font-sans); font-size: clamp(10px, 2.2vw, 13px); font-weight: 300; letter-spacing: 0.25em; margin-bottom: clamp(12px, 2.5vh, 20px); }
+    .event-venue { font-family: var(--font-serif); font-size: clamp(26px, 7vw, 44px); font-weight: 300; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.15; margin-bottom: 6px; text-shadow: 0 2px 8px rgba(255,255,255,0.9); }
+    .event-city { font-family: var(--font-serif); font-size: clamp(14px, 4vw, 20px); font-style: italic; font-weight: 400; margin-bottom: clamp(10px, 2.5vh, 18px); }
+
+    .maroon-rule { width: clamp(40px, 10vw, 70px); height: 1px; background: linear-gradient(90deg, transparent, var(--maroon), transparent); margin: clamp(6px, 1.5vh, 12px) auto; opacity: 0.6; }
+
+    .action-buttons { display: flex; gap: 8px; justify-content: center; margin-top: 8px; }
+    .btn-action {
+      display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+      padding: 8px 10px; flex: 1; border: 1px solid rgba(110,26,55,0.3); border-radius: 4px;
+      background: rgba(255,255,255,0.4); color: var(--maroon); text-decoration: none;
+      font-weight: 500; font-size: clamp(8px, 1.25vw, 9px); font-family: var(--font-sans); letter-spacing: 0.18em; text-transform: uppercase;
+      transition: background 0.28s, border-color 0.28s, transform 0.18s, color 0.28s; text-shadow: none;
+    }
+    .btn-action:hover, .btn-action:active { background: var(--maroon); border-color: var(--maroon); color: #fff; transform: translateY(-1px); }
+    .btn-action svg { width: 10px; height: 10px; fill: currentColor; flex-shrink: 0; }
+
+    .countdown-grid { display: flex; justify-content: center; gap: clamp(6px, 2.5vw, 14px); text-align: center; margin-bottom: 0; padding-bottom: 0; border: none; }
+    .cd-item { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: clamp(24px, 6vw, 36px); }
+    
+    .cd-num { font-family: var(--font-serif); font-size: clamp(19px, 5vw, 30px); color: var(--gold-dk); font-weight: 600; line-height: 1; text-shadow: 0 1px 6px rgba(255,255,255,0.8); }
+    .cd-lbl { font-family: var(--font-sans); font-size: clamp(8px, 1.2vw, 9px); font-weight: 500; text-transform: uppercase; letter-spacing: 0.22em; color: var(--gold-dk); opacity: 0.9; text-shadow: 0 1px 3px rgba(255,255,255,0.8); }
+    .cd-sep { font-family: var(--font-serif); font-size: clamp(15px, 4vw, 24px); color: rgba(160,120,48,0.5); font-weight: 300; line-height: 1; padding-top: 2px; }
+
+    .rsvp-title { font-family: var(--font-sc); font-size: clamp(14px, 4vw, 22px); color: var(--maroon); font-weight: 600; text-shadow: 0 1px 6px rgba(255,255,255,0.8); letter-spacing: 0.35em; text-transform: uppercase; margin-bottom: 2px; }
+    .rsvp-sub { font-family: var(--font-sans); font-size: clamp(8px, 1.5vw, 10px); font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dark); margin-bottom: clamp(10px, 2vh, 14px); text-shadow: 0 1px 3px rgba(255,255,255,0.8); }
+
+    .rsvp-form { display: flex; flex-direction: column; gap: clamp(6px, 1.2vh, 10px); text-align: left; }
+    .f-field { display: flex; flex-direction: column; gap: 3px; }
+    .f-lbl { font-family: var(--font-sans); font-size: clamp(8px, 1.2vw, 9px); font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--maroon); opacity: 0.9; text-shadow: 0 1px 3px rgba(255,255,255,0.8); }
+    .f-inp, .f-sel, .f-ta {
+      width: 100%; padding: clamp(6px, 1vh, 8px) 10px;
+      background: rgba(255,255,255,0.5);
+      border: 1px solid rgba(110,26,55,0.3); border-radius: 4px;
+      color: var(--text-dark); font-weight: 400; font-family: var(--font-sans);
+      font-size: clamp(9px, 1.6vw, 11px);
+      outline: none; transition: border-color 0.25s, background 0.25s;
+    }
+    .f-inp::placeholder, .f-ta::placeholder { color: rgba(44,26,18,0.5); }
+    .f-inp:focus, .f-sel:focus, .f-ta:focus { border-color: var(--maroon); background: rgba(255,255,255,0.8); }
+    .f-ta { resize: none; height: 45px; }
+
+    .attend-tgl { display: flex; border: 1px solid rgba(110,26,55,0.3); border-radius: 4px; overflow: hidden; background: rgba(255,255,255,0.5); }
+    .att-opt { flex: 1; padding: clamp(6px, 1vh, 8px) 5px; text-align: center; cursor: pointer; font-size: clamp(9px, 1.4vw, 11px); font-weight: 400; letter-spacing: 0.05em; color: rgba(44,26,18,0.7); border: none; background: transparent; transition: all 0.28s; font-family: var(--font-sans); }
+    .att-opt.sel-yes { background: var(--maroon); color: #fff; font-weight: 500; }
+    .att-opt.sel-no  { background: rgba(110,26,55,0.1); color: var(--maroon); }
+    .att-sep { width: 1px; background: rgba(110,26,55,0.3); flex-shrink: 0; }
+
+    .guest-ctr { display: flex; align-items: stretch; border: 1px solid rgba(110,26,55,0.3); border-radius: 4px; overflow: hidden; background: rgba(255,255,255,0.5); }
+    .g-btn { width: 30px; background: transparent; border: none; cursor: pointer; color: var(--maroon); font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+    .g-btn:hover { background: rgba(110,26,55,0.1); }
+    .g-num { flex: 1; text-align: center; font-family: var(--font-serif); font-size: clamp(12px, 3vw, 16px); font-weight: 600; color: var(--maroon); padding: 4px 0; background: transparent; }
+
+    .btn-submit { width: 100%; padding: clamp(8px, 1.2vh, 10px); background: var(--maroon); border: none; border-radius: 4px; color: #fff; cursor: pointer; font-family: var(--font-sans); font-weight: 500; font-size: clamp(8px, 1.3vw, 10px); letter-spacing: 0.3em; text-transform: uppercase; transition: background 0.28s, transform 0.18s; margin-top: 4px; text-shadow: none; }
+    .btn-submit:hover  { background: var(--text-dark); color: #fff; }
+    .btn-submit:active { transform: scale(0.98); }
+
+    .rsvp-success { display: none; text-align: center; padding: 10px 0; }
+    .rsvp-success.show { display: block; }
+    .rs-icon { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--maroon); display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; background: rgba(255,255,255,0.6); }
+    .rs-icon svg { width: 16px; height: 16px; stroke: var(--maroon); stroke-width: 2; fill: none; }
+    .rsvp-success h3 { font-family: var(--font-script); font-size: clamp(18px, 5vw, 24px); color: var(--maroon); margin-bottom: 4px; }
+    .rsvp-success p  { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: clamp(10px, 2vw, 12px); color: var(--text-dark); margin-bottom: 12px; }
+    #qr-container { display: flex; justify-content: center; align-items: center; margin: 6px auto; padding: 10px; background: rgba(255,255,255,0.9); border-radius: 6px; width: max-content; border: 1px solid rgba(110,26,55,0.2); }
+
+    /* Audio button */
+    #audio-btn {
+      position: fixed; top: 18px; right: 18px; z-index: 200;
+      width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(110,26,55,0.2);
+      background: rgba(255,255,255,0.5); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.5s ease, background 0.25s; box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    }
+    #audio-btn.visible { opacity: 1; }
+    #audio-btn:hover { background: rgba(255,255,255,0.75); }
+    #audio-btn svg { width: 15px; height: 15px; fill: var(--maroon); }
   </style>
 </head>
 <body>
 
-<!-- ============================================================
-     LOADING SCREEN
-============================================================ -->
-<div id="loading-screen" role="status" aria-label="Loading wedding invitation">
-  <canvas id="loading-canvas"></canvas>
-
-  <img id="loading-logo" src="logo1.png" alt="Shady & Youssra Logo" />
-
-  <div id="loading-text">Loading our special day&nbsp;✦</div>
-
-  <div id="loading-pets" aria-hidden="true">
-    <span>🦮</span>
-    <span>🐈</span>
-    <span>🦮</span>
-    <span>🐈</span>
-    <span>🦮</span>
-    <span>🐈</span>
+  <div id="loader" class="scene active">
+    <div class="loader-bg"></div>
+    <div class="loader-particles" id="loaderParticles"></div>
+    <div class="loader-content">
+      <div class="logo-wrap">
+        <div class="logo-glow"></div>
+        <img src="https://s3.eu-north-1.amazonaws.com/eternel.eg/image1.png" alt="T & A Monogram" class="logo-img" onerror="this.style.display='none'" />
+      </div>
+      <p class="loader-subtitle">Loading your invitation…</p>
+      <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
+    </div>
   </div>
 
-  <!-- Entry Button (Initially Hidden) -->
-  <button id="enter-btn" style="display: none;" aria-label="Enter the invitation">Start the celebration 🥂</button>
-
-</div>
-
-<!-- ============================================================
-     MAIN INVITATION WRAPPER
-============================================================ -->
-<div id="main-wrapper">
-
-  <canvas id="particles-canvas" aria-hidden="true"></canvas>
-
-  <audio id="bg-music" src="music1.mp3" loop preload="auto"></audio>
-
-  <button id="music-btn" aria-label="Toggle background music">
-    <span class="music-icon">♪</span>
-    <span id="music-label">Tap for music</span>
-  </button>
-
-  <div id="invitation-container">
-
-    <img id="invitation-image"
-         src="https://s3.eu-north-1.amazonaws.com/eternel.eg/image22.png"
-         alt="Shady & Youssra Wedding Invitation"
-         draggable="false" />
-
-    <div id="gif-overlay" aria-hidden="true">
-      <img src="gif1.gif" alt="" />
+  <div id="tapOverlay" class="tap-overlay hidden">
+    <div class="tap-inner">
+      <img src="https://s3.eu-north-1.amazonaws.com/eternel.eg/image1.png" alt="Monogram" class="tap-logo" onerror="this.style.display='none'" />
+      <p class="tap-label">Tap to Enter</p>
+      <div class="tap-ring"></div>
     </div>
+  </div>
 
-    <div id="interactive-overlay" aria-hidden="false">
+  <div id="intro" class="scene hidden">
+    <div class="intro-overlay"></div>
+    <img id="intro-img-element" alt="Just Married" class="intro-img" onerror="this.style.background='#0d0a07'" />
+    <div class="intro-vignette"></div>
+  </div>
 
-      <div id="map-btn-wrapper">
-        <a id="map-btn"
-           href="https://www.google.com/maps/search/La+Cabana+Blue+Blue"
-           target="_blank"
-           rel="noopener noreferrer"
-           aria-label="Open venue on Google Maps">
-          📍 Open in Google Maps
-        </a>
+  <div id="main" class="scene hidden">
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="page" id="page-1">
+      <div class="page-bg">
+        <img class="page-bg-img" src="https://s3.eu-north-1.amazonaws.com/eternel.eg/image3.gif" alt="" loading="eager" decoding="async" />
+      </div>
+      <div class="page-overlay" style="background: linear-gradient(to bottom, rgba(14,10,6,0.18) 0%, transparent 28%, transparent 65%, rgba(14,10,6,0.55) 100%);"></div>
+
+      <div class="page-frame page-frame--top">
+        <div class="page-frame-line"></div>
+        <div class="page-frame-corner"><span></span><span></span></div>
       </div>
 
-      <div id="rsvp-wrapper" role="form" aria-label="RSVP Form">
-        
-        <!-- WRAPPER to hide inputs on submit -->
-        <div id="rsvp-form-fields">
-          <div class="rsvp-field">
-            <label class="rsvp-label" for="rsvp-name">Your Name</label>
-            <input class="rsvp-input"
-                   id="rsvp-name"
-                   type="text"
-                   placeholder="Enter your name…"
-                   autocomplete="name" />
-          </div>
+      <div class="page-content">
+        <div class="invitation-wrap">
+          <div class="deco-rule anim-item" data-delay="0"><span class="rule-line"></span><span class="rule-diamond">✦</span><span class="rule-line"></span></div>
+          <p class="together anim-item" data-delay="1">Together with their families</p>
+          <h1 class="name-script anim-item" data-delay="2">Ahmed</h1>
+          <div class="ampersand-wrap anim-item" data-delay="3"><span class="amp-line"></span><span class="amp-char">&</span><span class="amp-line"></span></div>
+          <h1 class="name-script name-script--caps anim-item" data-delay="4">Tahany</h1>
+          <div class="deco-rule deco-rule--sm anim-item" data-delay="5"><span class="rule-line"></span><span class="rule-diamond">✦</span><span class="rule-line"></span></div>
+          <p class="invite-line anim-item" data-delay="6"></p>
+          <p class="invite-date anim-item" data-delay="7">invite you <br>to celebrate their wedding</p>
+          <div class="bottom-ornament anim-item" data-delay="8">✦   ✦   ✦</div>
+        </div>
+      </div>
 
-          <div class="rsvp-field">
-            <span class="rsvp-label">Will you join us?</span>
-            <div id="attendance-row">
-              <button class="attend-btn" data-value="joyfully"   id="btn-joyfully">Joyfully</button>
-              <button class="attend-btn" data-value="regretfully" id="btn-regretfully">Regretfully</button>
+      <a href="#page-2" class="scroll-separator anim-item" data-delay="9">
+        <span>Scroll</span>
+        <div class="chevron-down"></div>
+      </a>
+    </div>
+
+    <div class="page" id="page-2">
+      <div class="page-bg">
+        <img class="page-bg-img" src="https://s3.eu-north-1.amazonaws.com/eternel.eg/image4.gif" alt="" loading="lazy" decoding="async" />
+      </div>
+      <div class="page-overlay" style="background: transparent;"></div>
+
+      <div class="page-content top-40-restrict">
+        <div class="polished-glass fade-up-scroll" style="padding: clamp(8px, 1.5vh, 14px) clamp(10px, 2vw, 16px); max-width: 360px;">
+          <p class="event-date primary-text"><br><br><br>Saturday, July 4th, 2026</p>
+          <div class="maroon-rule"></div>
+          <p class="event-time secondary-text">19:00 – 01:00</p>
+          <h2 class="event-venue primary-text">Nile Plaza<br>Ballroom</h2>
+          <p class="event-city secondary-text">Cairo, Egypt</p>
+
+          <div class="action-buttons">
+            <a class="btn-action" href="https://maps.app.goo.gl/osni3dFd9ezWiSWB6" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24"><path d="M9 11a3 3 0 1 0 6 0 3 3 0 0 0-6 0z"/><path d="M17.657 16.657L13.414 20.9a2 2 0 0 1-2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0z"/></svg> Map
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="clear-60-zone">
+        <a href="#page-3" class="scroll-separator scroll-dark">
+          <span>Scroll</span>
+          <div class="chevron-down"></div>
+        </a>
+      </div>
+    </div>
+
+    <div class="page" id="page-3">
+      <div class="page-bg">
+        <img class="page-bg-img" src="https://s3.eu-north-1.amazonaws.com/eternel.eg/image5.gif" alt="" loading="lazy" decoding="async" />
+      </div>
+      <div class="page-overlay" style="background: transparent;"></div>
+
+      <div class="page-content" style="padding: 0 4vw;">
+        <div class="polished-glass fade-up-scroll" style="max-width: 340px; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
+          
+          <div style="padding-top: 12vh;">
+            <div class="countdown-grid">
+              <div class="cd-item"><span class="cd-num" id="cd-days">00</span><span class="cd-lbl">Days</span></div>
+              <span class="cd-sep" aria-hidden="true">:</span>
+              <div class="cd-item"><span class="cd-num" id="cd-hours">00</span><span class="cd-lbl">Hours</span></div>
+              <span class="cd-sep" aria-hidden="true">:</span>
+              <div class="cd-item"><span class="cd-num" id="cd-mins">00</span><span class="cd-lbl">Mins</span></div>
+              <span class="cd-sep" aria-hidden="true">:</span>
+              <div class="cd-item"><span class="cd-num" id="cd-secs">00</span><span class="cd-lbl">Secs</span></div>
             </div>
           </div>
 
-          <div class="rsvp-field">
-            <label class="rsvp-label" for="rsvp-guests">Guests</label>
-            <input class="rsvp-input"
-                   id="rsvp-guests"
-                   type="number"
-                   min="1" max="10"
-                   placeholder="Number of guests…" />
+          <div style="padding-bottom: 35vh;">
+            <h2 class="rsvp-title">R.S.V.P.</h2>
+            <p class="rsvp-sub">Kindly reply by June 4th, 2026</p>
+
+            <div id="rsvp-form-wrap">
+              <form class="rsvp-form" id="rsvp-form" onsubmit="submitRsvp(event)">
+                <div class="f-field">
+                  <label class="f-lbl" for="f-name">Full Name</label>
+                  <input class="f-inp" id="f-name" type="text" placeholder="Your full name" required autocomplete="name" />
+                </div>
+                <div class="f-field">
+                  <label class="f-lbl">Attendance</label>
+                  <div class="attend-tgl">
+                    <button type="button" class="att-opt" id="att-yes" onclick="setAttend('yes')">✓ Joyfully accepts</button>
+                    <div class="att-sep"></div>
+                    <button type="button" class="att-opt" id="att-no"  onclick="setAttend('no')">✕ Regretfully declines</button>
+                  </div>
+                </div>
+                <div class="f-field" id="guest-field" style="display:none;">
+                  <label class="f-lbl">Number of guests (Including Yourself)</label>
+                  <div class="guest-ctr">
+                    <button type="button" class="g-btn" onclick="changeGuests(-1)">−</button>
+                    <div class="g-num" id="guest-count">1</div>
+                    <button type="button" class="g-btn" onclick="changeGuests(1)">+</button>
+                  </div>
+                  <div id="guest-error" style="color: #6E1A37; font-size: 10px; font-weight: 500; margin-top: 4px; display: none;">Only 4 allowed</div>
+                </div>
+                <button type="submit" class="btn-submit" id="btn-submit">Send RSVP</button>
+              </form>
+            </div>
+
+            <div class="rsvp-success" id="rsvp-success">
+              <div class="rs-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+              <h3>Thank you!</h3>
+              <p>Your response is confirmed. Save this digital pass.</p>
+              <div id="qr-container"></div>
+            </div>
           </div>
 
-          <div class="rsvp-field">
-            <label class="rsvp-label" for="rsvp-message">Message for the couple</label>
-            <textarea class="rsvp-input"
-                      id="rsvp-message"
-                      rows="2"
-                      placeholder="Leave a wish..."></textarea>
-          </div>
-
-          <button id="rsvp-confirm-btn" type="button">✦ Confirm ✦</button>
         </div>
-
-        <!-- NEW Success message with transparent animated checkmark circle -->
-        <div id="rsvp-success" role="alert" aria-live="polite">
-          <div class="success-checkmark-circle">✓</div>
-          <div>We can't wait to celebrate with you!</div>
-        </div>
-
       </div>
-
     </div>
-
   </div>
 
-</div>
+  <audio id="bgMusic" loop preload="metadata"><source src="music1.mp3" type="audio/mpeg" /></audio>
+  <button id="audio-btn" aria-label="Toggle music">
+    <svg id="icon-play"  viewBox="0 0 24 24"><path d="M3 3v18l18-9z"/></svg>
+    <svg id="icon-pause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6zm8 0h4V5h-4z"/></svg>
+  </button>
 
-<script>
-/* ============================================================
-   ASSET PRELOADING & ENTRY LOGIC
-============================================================ */
-(function () {
+  <script>
+    // ⬇️=============================================================⬇️
+    //  🔴 CRITICAL: PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE 🔴
+    // ⬆️=============================================================⬆️
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOAYPOHCPxB4DEt1sleiLHnKBU7sPZto3Ambi35-fcmVFlxeBLCkN_hvyOOC-sI-y5-Q/exec'; 
 
-  const ASSETS = ['https://s3.eu-north-1.amazonaws.com/eternel.eg/image22.png', 'gif1.gif', 'logo1.png'];
-  let loaded = 0;
-  let fontsReady = false;
-  let assetsReady = false;
 
-  function tryReveal () {
-    if (fontsReady && assetsReady) showEnterButton();
-  }
+    const CONFIG = {
+      INTRO_DURATION:  8000,  
+      ANIM_BASE_DELAY: 150,   
+      ANIM_STEP:       150,   
+      PARTICLE_COUNT:  50,
+      PARTICLE_SPEED:  0.35,
+      MUSIC_VOLUME:    0.55,
+      LOADER_MIN_TIME: 400,   
+    };
 
-  /* --- Preload images ---------------------------------------- */
-  ASSETS.forEach(src => {
-    const img = new Image();
-    img.onload  = img.onerror = () => { if (++loaded >= ASSETS.length) { assetsReady = true; tryReveal(); } };
-    img.src = src;
-  });
+    const $ = id => document.getElementById(id);
+    const loaderEl = $('loader'), tapOverlay = $('tapOverlay'), introEl = $('intro'), mainEl = $('main');
+    const loaderBar = $('loaderBar'), loaderParts = $('loaderParticles'), bgMusic = $('bgMusic');
+    const canvas = $('particleCanvas');
+    const ctx = canvas ? canvas.getContext('2d') : null;
 
-  /* --- Fonts -------------------------------------------------- */
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(() => { fontsReady = true; tryReveal(); });
-  } else {
-    setTimeout(() => { fontsReady = true; tryReveal(); }, 800);
-  }
+    let musicStarted = false;
+    let animFrameId = null;
 
-  function showEnterButton () {
-    showEnterButton = () => {}; // ensure it only runs once
-    
-    document.getElementById('loading-pets').style.display = 'none';
-    document.getElementById('loading-text').innerHTML = 'Ready to celebrate?&nbsp;✦';
-    
-    const enterBtn = document.getElementById('enter-btn');
-    enterBtn.style.display = 'block';
-    enterBtn.style.opacity = '0';
-    requestAnimationFrame(() => {
-      enterBtn.style.transition = 'opacity 0.8s ease';
-      enterBtn.style.opacity = '1';
-    });
-  }
-
-  /* Handle Enter Button Click */
-  document.getElementById('enter-btn').addEventListener('click', () => {
-    revealInvitation();
-    initMusic(true); // Automatically start music because user interacted
-  });
-
-  function revealInvitation () {
-    const loader  = document.getElementById('loading-screen');
-    const wrapper = document.getElementById('main-wrapper');
-    const container = document.getElementById('invitation-container');
-
-    loader.classList.add('hidden');
-    wrapper.classList.add('visible');
-    setTimeout(() => container.classList.add('animate'), 100);
-
-    initParticles();
-  }
-
-})();
-
-/* ============================================================
-   LOADING SCREEN PARTICLES
-============================================================ */
-(function () {
-  const canvas = document.getElementById('loading-canvas');
-  const ctx    = canvas.getContext('2d');
-  let W, H, pts = [];
-
-  function resize () {
-    W = canvas.width  = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  for (let i = 0; i < 55; i++) {
-    pts.push({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      r: Math.random() * 4 + 1.5,
-      dx: (Math.random() - 0.5) * 0.4,
-      dy: (Math.random() - 0.5) * 0.4,
-      alpha: Math.random() * 0.5 + 0.1,
-    });
-  }
-
-  (function loop () {
-    ctx.clearRect(0, 0, W, H);
-    pts.forEach(p => {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(235,193,163,${p.alpha})`;
-      ctx.fill();
-      p.x += p.dx; p.y += p.dy;
-      if (p.x < 0 || p.x > W) p.dx *= -1;
-      if (p.y < 0 || p.y > H) p.dy *= -1;
-    });
-    requestAnimationFrame(loop);
-  })();
-})();
-
-/* ============================================================
-   BACKGROUND PARTICLES (main page)
-============================================================ */
-function initParticles () {
-  const canvas = document.getElementById('particles-canvas');
-  const ctx    = canvas.getContext('2d');
-  let W, H, pts = [];
-
-  function resize () {
-    W = canvas.width  = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  for (let i = 0; i < 70; i++) {
-    pts.push({
-      x:     Math.random() * window.innerWidth,
-      y:     Math.random() * window.innerHeight,
-      r:     Math.random() * 3 + 1,
-      dx:    (Math.random() - 0.5) * 0.35,
-      dy:    -(Math.random() * 0.5 + 0.2), 
-      alpha: Math.random() * 0.35 + 0.08,
-      pulse: Math.random() * Math.PI * 2,
-    });
-  }
-
-  (function loop (t) {
-    ctx.clearRect(0, 0, W, H);
-    pts.forEach(p => {
-      p.pulse += 0.018;
-      const a = p.alpha * (0.7 + 0.3 * Math.sin(p.pulse));
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(235,193,163,${a})`;
-      ctx.fill();
-      p.x += p.dx; p.y += p.dy;
-      if (p.x < 0) p.x = W;
-      if (p.x > W) p.x = 0;
-      if (p.y < -10) p.y = H + 10;
-    });
-    requestAnimationFrame(loop);
-  })();
-}
-
-/* ============================================================
-   MUSIC PLAYER
-============================================================ */
-function initMusic (startPlaying = false) {
-  const audio  = document.getElementById('bg-music');
-  const btn    = document.getElementById('music-btn');
-  const label  = document.getElementById('music-label');
-  let playing  = false;
-
-  audio.volume = 0;
-
-  if (startPlaying) {
-    audio.play().then(() => {
-      playing = true;
-      fadeVolume(audio, 0, 0.45, 2500); 
-      label.textContent = '♫ Playing';
-    }).catch(() => {
-      label.textContent = 'Tap for music';
-    });
-  }
-
-  btn.addEventListener('click', () => {
-    if (playing) {
-      audio.pause();
-      playing = false;
-      label.textContent = 'Tap for music';
-      btn.style.background = 'var(--terracotta)';
-    } else {
-      audio.play().then(() => {
-        playing = true;
-        fadeVolume(audio, audio.volume, 0.45, 1500);
-        label.textContent = '♫ Playing';
-        btn.style.background = 'var(--orange)';
-      }).catch(() => {});
-    }
-  });
-}
-
-function fadeVolume (audioEl, from, to, duration) {
-  const steps = 60;
-  const stepTime = duration / steps;
-  let step = 0;
-  audioEl.volume = from;
-  const timer = setInterval(() => {
-    step++;
-    audioEl.volume = Math.min(1, from + (to - from) * (step / steps));
-    if (step >= steps) clearInterval(timer);
-  }, stepTime);
-}
-
-/* ============================================================
-   RSVP INTERACTIONS & GOOGLE SHEETS SETUP
-============================================================ */
-
-const GOOGLE_SCRIPT_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyGKC1Cf_XWDIY1oAMVK-y4JvOT7rEUyDO9H4EvM6ZhjpJQjg3HMMRgg-FHdxlecHVF/exec'; // <--- PASTE YOUR LINK HERE
-
-(function () {
-  let selectedAttendance = '';
-
-  const joyBtn  = document.getElementById('btn-joyfully');
-  const regBtn  = document.getElementById('btn-regretfully');
-  const confirm = document.getElementById('rsvp-confirm-btn');
-  const success = document.getElementById('rsvp-success');
-  const formFields = document.getElementById('rsvp-form-fields');
-
-  function selectAttend (val) {
-    selectedAttendance = val;
-    joyBtn.classList.toggle('selected', val === 'joyfully');
-    regBtn.classList.toggle('selected', val === 'regretfully');
-  }
-
-  joyBtn.addEventListener('click', () => selectAttend('joyfully'));
-  regBtn.addEventListener('click', () => selectAttend('regretfully'));
-
-  confirm.addEventListener('click', () => {
-    const name    = document.getElementById('rsvp-name').value.trim();
-    const guests  = document.getElementById('rsvp-guests').value;
-    const message = document.getElementById('rsvp-message').value.trim();
-
-    // Validation
-    if (!name) {
-      document.getElementById('rsvp-name').focus();
-      document.getElementById('rsvp-name').style.borderColor = 'var(--border-red)';
-      setTimeout(() => document.getElementById('rsvp-name').style.borderColor = '', 1500);
-      return;
-    }
-    if (!selectedAttendance) {
-      joyBtn.style.boxShadow = '0 0 12px var(--border-red)';
-      setTimeout(() => { joyBtn.style.boxShadow = ''; }, 1500);
-      return;
+    function showScene(el) { el.classList.remove('hidden', 'gone'); void el.offsetHeight; el.classList.add('active'); }
+    function hideScene(el, andRemove = false) {
+      el.classList.remove('active'); el.classList.add('hidden');
+      if (andRemove) el.addEventListener('transitionend', () => el.classList.add('gone'), { once: true });
     }
 
-    const rsvpData = { name, attendance: selectedAttendance, guests, message };
-    
-    // UI Loading state
-    confirm.textContent = 'Sending...';
-    confirm.disabled = true;
+    function spawnLoaderParticles() {
+      for (let i = 0; i < 28; i++) {
+        const p = document.createElement('div'); p.className = 'particle';
+        const size = 2 + Math.random() * 4;
+        p.style.cssText = `width:${size}px;height:${size}px;left:${10+Math.random()*80}%;top:${20+Math.random()*70}%;--dur:${4+Math.random()*6}s;--delay:${Math.random()*5}s;`;
+        loaderParts.appendChild(p);
+      }
+    }
 
-    // Send to Google Sheets
-    fetch(GOOGLE_SCRIPT_WEB_APP_URL, {
-      method: 'POST',
-      mode: 'no-cors', // Essential for simple google sheets fetch to work without preflight errors
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(rsvpData)
-    }).then(() => {
-      // Hide all input fields smoothly but keep layout space to center success message
-      formFields.style.visibility = 'hidden';
-      formFields.style.opacity = '0';
-      
-      // Show checkmark success
-      success.style.display  = 'flex';
-      success.style.animation = 'none';
-      success.style.opacity   = '0';
-      requestAnimationFrame(() => {
-        success.style.transition = 'opacity 0.6s ease';
-        success.style.opacity    = '1';
+    function preloadAsset(src, type = 'img') {
+      return new Promise(resolve => {
+        const img = new Image(); img.onload = resolve; img.onerror = resolve; img.src = src;
       });
-    }).catch(error => {
-      console.error('Error submitting RSVP:', error);
-      // Fallback: Show success anyway so user experience is uninterrupted, 
-      // even if there's a strict browser ad-blocker blocking the fetch
-      formFields.style.visibility = 'hidden';
-      formFields.style.opacity = '0';
-      success.style.display  = 'flex';
-      success.style.opacity  = '1';
+    }
+
+    function setProgress(pct) { loaderBar.style.width = `${Math.min(pct, 100)}%`; }
+
+    async function preloadAll() {
+      const assets = [
+        { src: 'https://s3.eu-north-1.amazonaws.com/eternel.eg/image1.png',  type: 'img' },
+        { src: 'https://s3.eu-north-1.amazonaws.com/eternel.eg/image3.gif', type: 'img' },
+        { src: 'https://s3.eu-north-1.amazonaws.com/eternel.eg/image4.gif',  type: 'img' },
+        { src: 'https://s3.eu-north-1.amazonaws.com/eternel.eg/image5.gif',  type: 'img' },
+        { src: 'https://s3.eu-north-1.amazonaws.com/eternel.eg/image2.gif',  type: 'img' } // ADDED INTRO IMAGE
+      ];
+      const startTime = Date.now();
+      let loaded = 0;
+      await Promise.all(assets.map(a => preloadAsset(a.src, a.type).then(() => {
+        loaded++; setProgress((loaded / assets.length) * 100);
+      })));
+      const remaining = Math.max(0, CONFIG.LOADER_MIN_TIME - (Date.now() - startTime));
+      if(remaining > 0) await new Promise(r => setTimeout(r, remaining));
+    }
+
+    function setPlay(on) {
+      $('icon-play').style.display  = on ? 'none'  : 'block';
+      $('icon-pause').style.display = on ? 'block' : 'none';
+    }
+    
+    $('audio-btn').addEventListener('click', () => {
+      if (bgMusic.paused) bgMusic.play().then(() => setPlay(true)).catch(() => {});
+      else { bgMusic.pause(); setPlay(false); }
     });
 
-  });
+    class Particle {
+      constructor(w, h) { this.reset(w, h, true); }
+      reset(w, h, initial = false) {
+        this.x = Math.random() * w;
+        this.y = initial ? Math.random() * h : h + 10;
+        this.size  = 1 + Math.random() * 2.5;
+        this.speed = (0.15 + Math.random() * 0.5) * CONFIG.PARTICLE_SPEED;
+        this.drift = (Math.random() - 0.5) * 0.3;
+        this.life  = 0;
+        this.maxLife = 180 + Math.random() * 220;
+        this.glow  = Math.random() > 0.6;
+      }
+      update() { this.y -= this.speed; this.x += this.drift; this.life++; }
+      alpha()  {
+        const t = this.life / this.maxLife;
+        if (t < 0.15) return t / 0.15;
+        if (t > 0.75) return 1 - (t - 0.75) / 0.25;
+        return 1;
+      }
+      draw(ctx) {
+        const a = this.alpha() * 0.65;
+        if (this.glow) {
+          const g = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 4);
+          g.addColorStop(0, `rgba(225,198,140,${a})`);
+          g.addColorStop(1, `rgba(225,198,140,0)`);
+          ctx.fillStyle = g; ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size * 4, 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.fillStyle = `rgba(242,218,165,${a})`; ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+      }
+    }
 
-})();
+    let particles = [];
+    function initParticles() {
+      if (!canvas || !ctx) return;
+      resizeCanvas();
+      particles = Array.from({ length: CONFIG.PARTICLE_COUNT }, () => new Particle(canvas.width, canvas.height));
+      animateParticles();
+    }
+    function resizeCanvas() {
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width; canvas.height = rect.height;
+    }
+    function animateParticles() {
+      if (!canvas || !ctx) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => { p.update(); p.draw(ctx); if (p.life >= p.maxLife) p.reset(canvas.width, canvas.height); });
+      animFrameId = requestAnimationFrame(animateParticles);
+    }
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      if (particles.length) particles.forEach(p => {
+        if (p.x > canvas.width)  p.x = Math.random() * canvas.width;
+        if (p.y > canvas.height) p.y = Math.random() * canvas.height;
+      });
+    }, { passive: true });
 
-/* ============================================================
-   SUBTLE PARALLAX on scroll (invitation floats slightly)
-============================================================ */
-(function () {
-  const container = document.getElementById('invitation-container');
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    container.style.transform = `translateY(${y * 0.03}px)`;
-  }, { passive: true });
-})();
-</script>
+    function revealText() {
+      document.querySelectorAll('.anim-item').forEach(el => {
+        const delay = CONFIG.ANIM_BASE_DELAY + (parseInt(el.dataset.delay || 0) * CONFIG.ANIM_STEP);
+        setTimeout(() => el.classList.add('revealed'), delay);
+      });
+    }
 
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } });
+    }, { threshold: 0.12 });
+
+    function initCountdown() {
+      const targetDate = new Date("July 4, 2026 19:00:00").getTime();
+      const elDays = $('cd-days'), elHrs = $('cd-hours'), elMins = $('cd-mins'), elSecs = $('cd-secs');
+      function updateTimer() {
+        const distance = targetDate - Date.now();
+        if (distance < 0) return;
+        elDays.textContent = Math.floor(distance / 86400000).toString().padStart(2, '0');
+        elHrs.textContent  = Math.floor((distance % 86400000) / 3600000).toString().padStart(2, '0');
+        elMins.textContent = Math.floor((distance % 3600000) / 60000).toString().padStart(2, '0');
+        elSecs.textContent = Math.floor((distance % 60000) / 1000).toString().padStart(2, '0');
+      }
+      updateTimer(); setInterval(updateTimer, 1000);
+    }
+
+    document.querySelectorAll('.scroll-separator').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetEl = document.getElementById(targetId);
+        if (targetEl && mainEl) mainEl.scrollTo({ top: targetEl.offsetTop, behavior: 'smooth' });
+      });
+    });
+
+    let attendVal = '', guestCnt = 1;
+    function setAttend(v) {
+      $('att-yes').className = 'att-opt' + (v === 'yes' ? ' sel-yes' : '');
+      $('att-no').className  = 'att-opt' + (v === 'no'  ? ' sel-no'  : '');
+      $('guest-field').style.display = v === 'yes' ? 'flex' : 'none';
+      attendVal = v;
+    }
+    
+    function changeGuests(d) {
+      let newCount = guestCnt + d;
+      let errorEl = $('guest-error');
+      
+      if (newCount > 4) {
+        // Show error and prevent increasing the number
+        errorEl.style.display = 'block';
+      } else {
+        // Hide error and update the counter (keeping minimum at 1)
+        errorEl.style.display = 'none';
+        guestCnt = Math.max(1, newCount);
+        $('guest-count').textContent = guestCnt;
+      }
+    }
+
+    // Google Sheets Submission Logic
+    async function submitRsvp(e) {
+      e.preventDefault();
+
+      const name    = $('f-name').value.trim();
+      
+      if (!name || !attendVal) { if (!name) $('f-name').focus(); else alert('Please select attendance.'); return; }
+      
+      const guests  = attendVal === 'yes' ? guestCnt : 0;
+      
+      // Generate a unique 8-character ID for this guest
+      const guestId = 'GST-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+
+      // UI Loading state
+      const btn = $('btn-submit');
+      btn.textContent = 'Sending...';
+      btn.disabled = true;
+
+      const payload = {
+        guestId: guestId,
+        name: name,
+        attendance: attendVal === 'yes' ? 'Attending' : 'Declining',
+        guestCount: guests,
+        message: 'N/A' // Message field was removed, passing a default value so the Google Sheet doesn't break
+      };
+
+      try {
+        // Send data to Google Apps Script silently
+        await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+      } catch(err) {
+        console.warn("Fetch error (expected due to no-cors)", err);
+      }
+
+      // Hide form and show success
+      $('rsvp-form-wrap').style.display = 'none';
+      const s = $('rsvp-success'); s.classList.add('show');
+      $('qr-container').innerHTML = '';
+
+      // The URL that the QR Code will encode — points to the digital pass page
+      // ⚠️ Replace the base URL below with wherever you host ticket.html
+      const TICKET_BASE_URL = window.location.origin + window.location.pathname.replace('index.html', '') + 'ticket.html';
+      const ticketUrl = TICKET_BASE_URL + "?id=" + guestId;
+
+      new QRCode($('qr-container'), { 
+        text: ticketUrl, 
+        width: 150, 
+        height: 150, 
+        colorDark: '#2c1a12', 
+        colorLight: '#ffffff', 
+        correctLevel: QRCode.CorrectLevel.M 
+      });
+    }
+
+    async function run() {
+      spawnLoaderParticles();
+      await preloadAll();
+      
+      hideScene(loaderEl, true);
+      
+      tapOverlay.classList.remove('hidden');
+      
+      await new Promise(resolve => {
+        tapOverlay.addEventListener('click', () => {
+          tapOverlay.style.opacity = '0';
+          
+          $('intro-img-element').src = 'https://s3.eu-north-1.amazonaws.com/eternel.eg/image2.gif';
+          
+          bgMusic.volume = CONFIG.MUSIC_VOLUME;
+          bgMusic.play().then(() => { musicStarted = true; setPlay(true); }).catch(()=>{});
+          
+          setTimeout(() => {
+             tapOverlay.classList.add('hidden');
+             resolve();
+          }, 500);
+        }, { once: true });
+      });
+      
+      showScene(introEl);
+      await new Promise(r => setTimeout(r, CONFIG.INTRO_DURATION));
+      
+      hideScene(introEl, true);
+      showScene(mainEl);
+      
+      $('audio-btn').classList.add('visible');
+      initParticles();
+      initCountdown();
+      document.querySelectorAll('.fade-up-scroll').forEach(el => observer.observe(el));
+      setTimeout(revealText, 200);
+    }
+
+    document.addEventListener('DOMContentLoaded', run);
+  </script>
 </body>
 </html>
